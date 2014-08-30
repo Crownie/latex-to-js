@@ -1,4 +1,4 @@
 latex-to-js
 ===========
 
-a JavaScript plugin for converting latex to js math syntax
+a JavaScript plugin for converting latex equations to js math syntax
