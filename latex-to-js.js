@@ -115,7 +115,7 @@ var latex_to_js = function(input) {
 	};
 
 	sinCosTanFramework = function(func, input) {
-		var pat1 = new RegExp("\\\\" + func + "\\\\left\\(([0-9a-zA-Z\\.\\+\\*\\-\\\\]+)\\\\right\\)");
+		var pat1 = new RegExp("\\\\" + func + "\\\\left\\(([0-9a-zA-Z\\.\\+\\*\\-\\\\\\(\\)\\/]+)\\\\right\\)");
 		//eg: /\\sin\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)/
 
 		while (input.search(pat1) >= 0) {
