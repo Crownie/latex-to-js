@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+		<title>latex-to-js</title>
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="../latex-to-js.js"></script>
+		<script>
+			$(function(){
+				$(".latex").each(function(i,e){
+					$(this).text(latex_to_js($(this).text()));
+				});
+			});
+		</script>
+		<style>
+			.latex{
+				padding:10px;
+			}
+		</style>
+	</head>
+	<body id="index" onload="">
+		
+		<img src="http://latex.codecogs.com/gif.latex?\sin{\cos{\frac{d}{dx}\sqrt{x}\tan{x}}}" />
+		<div class="latex">\frac{d}{dx}\sqrt{x}</div>
+		<div class="latex">\sin23 + \sin\left(\tan39\right)</div>
+		<div class="latex">\frac{d}{dx}\sqrt{x} = \frac{d}{dx}x^{\frac{1}{2}} = \frac{1}{2}x^{-\frac{1}{2}} = \frac{1}{2\sqrt{x}}</div>
+		<div class="latex">P\times\left(\frac{J}{1-\left(1+\frac{J}{100}\right)^{-n}}\right)</div>
+	</body>
+</html>
