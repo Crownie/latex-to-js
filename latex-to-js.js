@@ -1,3 +1,21 @@
+/*
+ * Author: Tobi Ayilara
+ * Website: http://crownie.tk
+ * github: https://github.com/crownie/latex-to-js
+ * 
+ * Copyright 2014 Tobi Ayilara
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+   use this file except in compliance with the License. You may obtain a copy
+   of the License at
+          
+   http://www.apache.org/licenses/LICENSE-2.0
+          
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+   WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+   License for the specific language governing permissions and limitations under
+   the License.
+ */
 var latex_to_js = function(input) {
 
 	var init, fraction, square_root, nth_root, nth_power, sin, cos, tan, sinCosTanFramework, convert_others;
@@ -30,7 +48,7 @@ var latex_to_js = function(input) {
 
 	fraction = function(input) {
 		while (input.search(/\\frac\{(((?![\{\}]).)*)\}\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/\\frac\{(((?![\{\}]).)*)\}\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/\\frac\{(((?![\{\}]).)*)\}\{(((?![\{\}]).)*)\}/g, "($1)/($3)");
 		}
 
@@ -43,7 +61,7 @@ var latex_to_js = function(input) {
 
 	square_root = function(input) {
 		while (input.search(/\\sqrt\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/\\sqrt\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/\\sqrt\{(((?![\{\}]).)*)\}/g, "sqrt($1)");
 		}
 
@@ -56,7 +74,7 @@ var latex_to_js = function(input) {
 
 	nth_root = function(input) {
 		while (input.search(/\\sqrt\[(((?![\{\}]).)*)\]\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/\\sqrt\[(((?![\{\}]).)*)\]\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/\\sqrt\[(((?![\{\}]).)*)\]\{(((?![\{\}]).)*)\}/g, "pow($3,1/$1)");
 		}
 		if (input.search(/\\sqrt\[/) >= 0) {
@@ -68,30 +86,30 @@ var latex_to_js = function(input) {
 	nth_power = function(input) {
 		//first case: single number with curly bracket power
 		while (input.search(/([0-9a-zA-Z\.]+)\^\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/([0-9a-zA-Z\.]+)\^\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/([0-9a-zA-Z\.]+)\^\{(((?![\{\}]).)*)\}/g, "pow($1,$2)");
 		}
 		//second case: single number without curly bracket
 		while (input.search(/([0-9a-zA-Z\.]+)\^([0-9a-zA-Z\.]+)/) >= 0) {
-			console.log(input.match(/([0-9a-zA-Z\.]+)\^([0-9a-zA-Z\.]+)/));
+			
 			input = input.replace(/([0-9a-zA-Z\.]+)\^([0-9a-zA-Z\.]+)/g, "pow($1,$2)");
 		}
 
 		//third case: bracket number without curly bracket power
 		while (input.search(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^([0-9a-zA-Z\.]+)/) >= 0) {
-			console.log(input.match(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^([0-9a-zA-Z\.]+)/));
+			
 			input = input.replace(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^([0-9a-zA-Z\.]+)/g, "pow($1,$2)");
 		}
 
 		//forth case: bracket number with curly bracket power
 		while (input.search(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)\^\{(((?![\{\}]).)*)\}/g, "pow($1,$2)");
 		}
 		
 		//fifth case: bracket number with some brackets and division sign, with curly bracket power
 		while (input.search(/\\left\(([0-9a-zA-Z\.\+\*\-\\\(\)\/]+)\\right\)\^\{(((?![\{\}]).)*)\}/) >= 0) {
-			console.log(input.match(/\\left\(([0-9a-zA-Z\.\+\*\-\\\(\)\/]+)\\right\)\^\{(((?![\{\}]).)*)\}/));
+			
 			input = input.replace(/\\left\(([0-9a-zA-Z\.\+\*\-\\\(\)\/]+)\\right\)\^\{(((?![\{\}]).)*)\}/g, "pow($1,$2)");
 		}
 
@@ -116,17 +134,17 @@ var latex_to_js = function(input) {
 
 	sinCosTanFramework = function(func, input) {
 		var pat1 = new RegExp("\\\\" + func + "\\\\left\\(([0-9a-zA-Z\\.\\+\\*\\-\\\\\\(\\)\\/]+)\\\\right\\)");
-		//eg: /\\sin\\left\(([0-9a-zA-Z\.\+\*\-\\]+)\\right\)/
+		//eg: /\\sin\\left\(([0-9a-zA-Z\.\+\*\-\\\(\)\/]+)\\right\)/
 
 		while (input.search(pat1) >= 0) {
-			console.log(input.match(pat1));
+			
 			input = input.replace(pat1, func + "($1)");
 		}
 		var pat2 = new RegExp("\\\\" + func + "([0-9a-zA-Z]+)");
 		//eg:  /\\sin([0-9a-zA-Z]+)/:
-		console.log("input:" + input + input.match(pat2));
+		
 		while (input.search(pat2) >= 0) {
-			console.log(input.match(pat2));
+			
 			input = input.replace(pat2, func + "($1)");
 		}
 
@@ -187,15 +205,15 @@ var latex_to_js = function(input) {
 		});
 		//desc order
 
-		console.log(arr);
+		
 
 		closest_pos = arr[arr.indexOf(0)-1];
 		
-		console.log("closest: "+closest_pos);
+		
 
 		if (closest_pos <= 0 || closest_pos===undefined) {
-			console.log("ERROR: syntax error. func:"+func);
-			console.log(input);
+			
+			
 			throw ("syntax error");
 		}
 
@@ -222,7 +240,7 @@ var latex_to_js = function(input) {
 				input = cos(input);
 				break;
 			default:
-				console.log("syntax error");
+				
 		}
 
 		switch(func) {
@@ -258,4 +276,3 @@ var latex_to_js = function(input) {
 	}
 	
 };
-
